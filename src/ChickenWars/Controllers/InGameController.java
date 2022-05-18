@@ -24,6 +24,6 @@ public class InGameController extends BaseController {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+        chicken.setPosition(chicken.getPositionX() + 1, chicken.getPositionY() + 1);
     }
 }
