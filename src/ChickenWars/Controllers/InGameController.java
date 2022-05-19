@@ -7,6 +7,7 @@ import ChickenWars.Utils.Logger;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class InGameController extends BaseController {    
@@ -30,11 +31,29 @@ public class InGameController extends BaseController {
         
         Random rand = new Random();
         
-        cat1 = new Cat(rand.nextInt(600) + 100, rand.nextInt(300) + 300);
-        cat2 = new Cat(rand.nextInt(600) + 100, rand.nextInt(300) + 300);
-        dart1 = new Dart(0, 600 + rand.nextInt(150));
-        dart2 = new Dart(730, 600 + rand.nextInt(150));
+        cat1 = new Cat(rand.nextInt(600) + 100, rand.nextInt(800) + 450);
+        cat2 = new Cat(rand.nextInt(600) + 100, rand.nextInt(800) + 450);
+        dart1 = new Dart(0, 400 + rand.nextInt(650));
+        dart2 = new Dart(730, 400 + rand.nextInt(900));
+    }
+    
+    public void resetGame() {
+        GameObjects.objects = new ArrayList<>();
         
+        chicken = new Chicken(300, 50);
+        
+        levelScoreCount = 3 + (GameStates.level * 2);
+
+        levelText = new LevelText(0, 0);
+        levelText.isRendering = false;
+        levelText.currentText = levelScoreCount - chicken.levelScore;
+        
+        Random rand = new Random();
+        
+        cat1 = new Cat(rand.nextInt(600) + 100, rand.nextInt(800) + 450);
+        cat2 = new Cat(rand.nextInt(600) + 100, rand.nextInt(800) + 450);
+        dart1 = new Dart(0, 400 + rand.nextInt(650));
+        dart2 = new Dart(730, 400 + rand.nextInt(900));
     }
     
     @Override
@@ -59,8 +78,8 @@ public class InGameController extends BaseController {
         Random rand = new Random();
         
         chicken.setPosition(chicken.getPositionX(), chicken.getPositionY());
-        cat1.setPosition(cat1.getPositionX(), cat1.getPositionY() - rand.nextInt(7) - 3);
-        cat2.setPosition(cat2.getPositionX(), cat2.getPositionY() - rand.nextInt(7) - 3);
+        cat1.setPosition(cat1.getPositionX(), cat1.getPositionY() - rand.nextInt(2 * (GameStates.level + 1)) - 2);
+        cat2.setPosition(cat2.getPositionX(), cat2.getPositionY() - rand.nextInt(2 * (GameStates.level + 1)) - 2);
         
         dart1.setPosition(dart1.getPositionX(), dart1.getPositionY() - 2);
         dart2.setPosition(dart2.getPositionX(), dart2.getPositionY() - 2);
@@ -89,7 +108,8 @@ public class InGameController extends BaseController {
             }
         }
         
-        checkColissions();
+        checkDartColissions();
+        checkChickenColissions();
     }
     
     private void shoot() {
@@ -104,7 +124,7 @@ public class InGameController extends BaseController {
         }
     }
 
-    private void checkColissions() {
+    private void checkDartColissions() {
         for (GameObject gameObject:GameObjects.objects) {
             if (gameObject instanceof Egg) {
                 Egg egg = (Egg) gameObject;
@@ -129,10 +149,26 @@ public class InGameController extends BaseController {
                             
                             if (levelText.currentText == 0) {
                                 GameStates.changeGameState(GameStates.States.COMPLETED);
+                                resetGame();
                             }
                             
                         }
                     }
+                }
+            }
+        }
+    }
+
+    private void checkChickenColissions() {
+        for (GameObject gameObject:GameObjects.objects) {
+            if (gameObject instanceof Cat) {
+                Cat cat = (Cat) gameObject;
+                
+                if (new Rectangle(cat.getPositionX(), cat.getPositionY(), cat.objectSprite.getWidth() / 2, cat.objectSprite.getHeight() / 2).intersects(
+                        new Rectangle(chicken.getPositionX(), chicken.getPositionY(), chicken.objectSprite.getWidth() / 2, chicken.objectSprite.getHeight() / 2))) {
+                    
+                    GameStates.changeGameState(GameStates.States.FAILED);
+                    resetGame();
                 }
             }
         }

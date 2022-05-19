@@ -9,10 +9,10 @@ public class FailedController extends BaseController {
     @Override
     public void controllerKeyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-                case KeyEvent.VK_SPACE:
-                    GameStates.changeGameState(GameStates.States.INGAME);
-                    break;
-            }
+            case KeyEvent.VK_SPACE:
+                GameStates.changeGameState(GameStates.States.INGAME);
+                break;
+        }
     }
     
     @Override

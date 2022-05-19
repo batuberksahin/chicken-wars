@@ -1,5 +1,6 @@
 package ChickenWars;
 
+import ChickenWars.Controllers.InGameController;
 import ChickenWars.Utils.Logger;
 
 public class GameStates {

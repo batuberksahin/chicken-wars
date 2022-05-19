@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
 
 import ChickenWars.GameObjects;
+import ChickenWars.GameStates;
 import ChickenWars.Objects.*;
 
 public class InGameView extends BaseView {
@@ -31,6 +32,8 @@ public class InGameView extends BaseView {
     public void draw(Graphics g) {
         g.setColor(Color.BLACK);
         g.drawImage(background,0,0,this);
+        
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 32));
        
         for (GameObject gameObject:GameObjects.objects) {
             if (gameObject instanceof Chicken) {
@@ -51,8 +54,11 @@ public class InGameView extends BaseView {
             if (gameObject instanceof LevelText) {
                 LevelText levelText = (LevelText) gameObject;
 
-                g.drawString("You need to shoot " + levelText.currentText + " dart!", 10, 10);
+                g.drawString("You need to shoot " + levelText.currentText + " dart!", 10, 30);
             }
         }
+        
+        g.drawString("LEVEL " + (GameStates.level + 1), 650, 30);
+
     }
 }
