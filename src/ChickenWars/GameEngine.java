@@ -32,7 +32,7 @@ public class GameEngine extends JFrame implements ActionListener {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         
-        timer = new Timer(120, this);
+        timer = new Timer(1, this);
         timer.start();
         
         Logger.log("Graphic Window opened!");

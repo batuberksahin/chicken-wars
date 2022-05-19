@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageInputStream;
 
 import ChickenWars.GameObjects;
-import ChickenWars.Objects.GameObject;
+import ChickenWars.Objects.*;
 
 public class InGameView extends BaseView {
     private BufferedImage background;
@@ -28,13 +28,22 @@ public class InGameView extends BaseView {
     
     @Override
     public void draw(Graphics g) {
-       g.setColor(Color.BLACK);
-       g.drawImage(background,0,0,this);
+        g.setColor(Color.BLACK);
+        g.drawImage(background,0,0,this);
        
-       g.drawString("DENEME", 100, 100);
-       
-       for (GameObject gameObject:GameObjects.objects) {
-           g.drawImage(gameObject.objectSprite, gameObject.getPositionX(), gameObject.getPositionY(), this);
-       }
+        for (GameObject gameObject:GameObjects.objects) {
+            if (gameObject instanceof Chicken) {
+                Chicken chicken = (Chicken) gameObject;
+                
+                if (chicken.isDirectionLeft)
+                    g.drawImage(gameObject.objectSprite, gameObject.getPositionX(), gameObject.getPositionY(), this);
+                else
+                    g.drawImage(chicken.objectSprite, chicken.getPositionX() + chicken.objectSprite.getWidth(), chicken.getPositionY(), -chicken.objectSprite.getWidth(), chicken.objectSprite.getHeight(), this);
+                continue;
+            }
+            
+            if (gameObject.isRendering)
+                g.drawImage(gameObject.objectSprite, gameObject.getPositionX(), gameObject.getPositionY(), this);
+        }
     }
 }

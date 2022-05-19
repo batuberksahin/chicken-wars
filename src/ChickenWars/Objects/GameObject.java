@@ -15,6 +15,8 @@ public class GameObject {
     
     public BufferedImage objectSprite;
     
+    public boolean isRendering = true;
+    
     public GameObject(int xx, int yy, String location) {
         setPosition(xx, yy);
         
@@ -39,6 +41,6 @@ public class GameObject {
     }
     
     public int getPositionY() {
-        return x;
+        return y;
     }
 }
