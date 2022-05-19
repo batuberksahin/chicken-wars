@@ -1,5 +1,6 @@
 package ChickenWars.Views;
 
+import ChickenWars.Controllers.InGameController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -44,6 +45,14 @@ public class InGameView extends BaseView {
             
             if (gameObject.isRendering)
                 g.drawImage(gameObject.objectSprite, gameObject.getPositionX(), gameObject.getPositionY(), this);
+        }
+        
+        for (GameObject gameObject:GameObjects.objects) {
+            if (gameObject instanceof LevelText) {
+                LevelText levelText = (LevelText) gameObject;
+
+                g.drawString("You need to shoot " + levelText.currentText + " dart!", 10, 10);
+            }
         }
     }
 }

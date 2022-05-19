@@ -1,6 +1,7 @@
 package ChickenWars.Objects;
 
 public class Chicken extends GameObject {
+    public int levelScore = 0;
     public int speed = 8;
     public boolean isDirectionLeft = true;
     
